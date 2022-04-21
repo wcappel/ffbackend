@@ -1,7 +1,10 @@
 package com.wcappel.ffbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity @Table(name="Leagues") public class League {
     @Id @Column(name="League_ID") @GeneratedValue(strategy= GenerationType.IDENTITY) int leagueID;
     @Column(name="Name") String name;
@@ -46,6 +49,14 @@ import javax.persistence.*;
 
     public boolean isPreMatch() {
         return this.preMatch;
+    }
+
+    public int getLeagueID() {
+        return leagueID;
+    }
+
+    public void setLeagueID(int leagueID) {
+        this.leagueID = leagueID;
     }
 
     public void setPreMatch(boolean preMatch) {
