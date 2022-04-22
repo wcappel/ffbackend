@@ -21,4 +21,11 @@ import javax.persistence.*;
     public String getUsername() {
         return this.username;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                '}';
+    }
 }

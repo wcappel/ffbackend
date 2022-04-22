@@ -3,11 +3,10 @@ package com.wcappel.ffbackend.misc;
 import com.wcappel.ffbackend.model.League;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class TeamId implements Serializable {
     private String teamName;
-    private League league;
+    private Integer leagueId;
 
     public TeamId() {}
 
@@ -19,16 +18,16 @@ public class TeamId implements Serializable {
         this.teamName = teamName;
     }
 
-    public League getLeague() {
-        return league;
+    public Integer getLeagueId() {
+        return leagueId;
     }
 
-    public void setLeague(League league) {
-        this.league = league;
+    public void setLeagueId(Integer leagueId) {
+        this.leagueId = leagueId;
     }
 
-    public TeamId(String teamName, League league) {
+    public TeamId(String teamName, Integer leagueId) {
         this.teamName = teamName;
-        this.league = league;
+        this.leagueId = leagueId;
     }
 }

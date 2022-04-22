@@ -5,11 +5,14 @@ import com.wcappel.ffbackend.misc.RosterId;
 import javax.persistence.*;
 
 @Entity @IdClass(RosterId.class) @Table(name="Rosters") public class Roster {
-    @Id @ManyToOne(fetch = FetchType.LAZY) @JoinColumns({
-            @JoinColumn(name="Player_name", referencedColumnName = "Name"),
-            @JoinColumn(name="Position", referencedColumnName = "Position")
+    @Id @Column(name="Player_name", insertable = false, updatable = false) private String playerName;
+    @Id @Column(name="Position", insertable = false, updatable = false) private String playerPos;
+    @Id @Column(name="League", insertable = false, updatable = false) private int leagueId;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumns({
+            @JoinColumn(name="Player_name", referencedColumnName = "Name", insertable = false, updatable = false),
+            @JoinColumn(name="Position", referencedColumnName = "Position", insertable = false, updatable = false)
     }) private Player playerRef;
-    @Id @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="League") private League league;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="League", referencedColumnName = "League_ID", insertable = false, updatable = false) private League league;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumns({
             @JoinColumn(name="League", referencedColumnName = "League", insertable = false, updatable = false),
             @JoinColumn(name="Rostered", referencedColumnName = "Team_name", insertable = false, updatable = false)
@@ -18,23 +21,56 @@ import javax.persistence.*;
 
     public Roster() {}
 
-    public Roster(Player playerRef, League league, Team rostered, String rosterPosition) {
+    public Roster(String playerName, String playerPosition, int leagueId, Player playerRef, League league,
+                  Team rostered, String rosterPosition) {
+        this.playerName = playerName;
+        this.playerPos = playerPosition;
+        this.leagueId = leagueId;
         this.playerRef = playerRef;
         this.league = league;
-        this.rosterPosition = rosterPosition;
         this.rostered = rostered;
+        this.rosterPosition = rosterPosition;
+    }
+
+    @Override
+    public String toString() {
+        return "Roster{" +
+                "playerName='" + playerName + '\'' +
+                ", playerPos='" + playerPos + '\'' +
+                ", leagueId=" + leagueId +
+                ", playerRef=" + playerRef +
+                ", league=" + league +
+                ", rostered=" + rostered +
+                ", rosterPosition='" + rosterPosition + '\'' +
+                '}';
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getPlayerPos() {
+        return playerPos;
+    }
+
+    public void setPlayerPos(String playerPos) {
+        this.playerPos = playerPos;
+    }
+
+    public int getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(int leagueId) {
+        this.leagueId = leagueId;
     }
 
     public Player getPlayerRef() {
         return playerRef;
-    }
-
-    public Team getRostered() {
-        return rostered;
-    }
-
-    public void setRostered(Team rostered) {
-        this.rostered = rostered;
     }
 
     public void setPlayerRef(Player playerRef) {
@@ -47,6 +83,14 @@ import javax.persistence.*;
 
     public void setLeague(League league) {
         this.league = league;
+    }
+
+    public Team getRostered() {
+        return rostered;
+    }
+
+    public void setRostered(Team rostered) {
+        this.rostered = rostered;
     }
 
     public String getRosterPosition() {

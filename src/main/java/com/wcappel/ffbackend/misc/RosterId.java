@@ -6,29 +6,39 @@ import com.wcappel.ffbackend.model.Player;
 import java.io.Serializable;
 
 public class RosterId implements Serializable {
-    private Player playerRef;
-    private League league;
+    private String playerName;
+    private String playerPos;
+    private int leagueId;
 
     public RosterId() {}
 
-    public RosterId(Player playerRef, League league) {
-        this.league = league;
-        this.playerRef = playerRef;
+    public RosterId(String playerName, String playerPos, int leagueId) {
+        this.playerName = playerName;
+        this.playerPos = playerPos;
+        this.leagueId = leagueId;
     }
 
-    public Player getPlayerRef() {
-        return playerRef;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setPlayerRef(Player playerRef) {
-        this.playerRef = playerRef;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
-    public League getLeague() {
-        return league;
+    public String getPlayerPos() {
+        return playerPos;
     }
 
-    public void setLeague(League league) {
-        this.league = league;
+    public void setPlayerPos(String playerPos) {
+        this.playerPos = playerPos;
+    }
+
+    public int getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(int league) {
+        this.leagueId = league;
     }
 }

@@ -8,7 +8,10 @@ import javax.persistence.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity @IdClass(TeamId.class) @Table(name="Teams") public class Team {
     @Id @Column(name="Team_name") private String teamName;
-    @Id @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="League") private League league;
+    @Id @Column(name="League", nullable = false) private int leagueId;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = League.class)
+    @JoinColumn(name="League", referencedColumnName = "League_ID", insertable = false, updatable = false, nullable = false)
+    private League league;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="Owner") private User owner;
     @Column(name="Wins") private byte wins;
     @Column(name="Losses") private byte losses;
@@ -18,8 +21,9 @@ import javax.persistence.*;
 
     public Team() {}
 
-    public Team(String teamName, League league, User owner, byte wins, byte losses, byte ties, boolean onBye, String logoUrl) {
+    public Team(String teamName, int leagueId, League league, User owner, byte wins, byte losses, byte ties, boolean onBye, String logoUrl) {
         this.teamName = teamName;
+        this.leagueId = leagueId;
         this.league = league;
         this.owner = owner;
         this.wins = wins;
@@ -27,6 +31,28 @@ import javax.persistence.*;
         this.ties = ties;
         this.onBye = onBye;
         this.logoUrl = logoUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "teamName='" + teamName + '\'' +
+                ", league=" + league +
+                ", owner=" + owner +
+                ", wins=" + wins +
+                ", losses=" + losses +
+                ", ties=" + ties +
+                ", onBye=" + onBye +
+                ", logoUrl='" + logoUrl + '\'' +
+                '}';
+    }
+
+    public int getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(int leagueId) {
+        this.leagueId = leagueId;
     }
 
     public String getTeamName() {

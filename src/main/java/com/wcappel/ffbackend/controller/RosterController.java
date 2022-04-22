@@ -3,9 +3,7 @@ package com.wcappel.ffbackend.controller;
 import com.wcappel.ffbackend.model.Roster;
 import com.wcappel.ffbackend.repository.RosterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +14,12 @@ import java.util.List;
     @GetMapping("/getallrosters")
     public List<Roster> getAllRosters() {
         return rosterRepository.findAll();
+    }
+
+    @PostMapping("/addroster")
+    public Roster addRoster(@RequestBody Roster r) {
+        System.out.println(r.toString());
+        return rosterRepository.save(r);
     }
 }
 

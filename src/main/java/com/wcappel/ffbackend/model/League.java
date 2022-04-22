@@ -3,11 +3,12 @@ package com.wcappel.ffbackend.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity @Table(name="Leagues") public class League {
-    @Id @Column(name="League_ID") @GeneratedValue(strategy= GenerationType.IDENTITY) int leagueID;
-    @Column(name="Name") String name;
+    @Id @Column(name="League_ID", nullable = false) @GeneratedValue(strategy= GenerationType.IDENTITY) Integer leagueID;
+    @Column(name="Name", nullable = false) String name;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="Commissioner") User commissioner;
     @Column(name="Current_week") byte currentWeek;
     @Column(name="Pre_match") boolean preMatch;
@@ -15,12 +16,42 @@ import javax.persistence.*;
 
     public League() {}
 
-    public League(String name, User commissioner, String logoUrl) {
+    public League(Integer leagueID) {
+        this.leagueID = leagueID;
+    }
+
+    public League(Integer leagueID, String name, User commissioner, String logoUrl) {
+        this.leagueID = leagueID;
         this.currentWeek = 0;
         this.preMatch = true;
         this.name = name;
         this.commissioner = commissioner;
         this.logoUrl = logoUrl;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        League league = (League) o;
+        return leagueID.equals(league.leagueID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(leagueID);
+    }
+
+    @Override
+    public String toString() {
+        return "League{" +
+                "leagueID=" + leagueID +
+                ", name='" + name + '\'' +
+                ", commissioner=" + commissioner +
+                ", currentWeek=" + currentWeek +
+                ", preMatch=" + preMatch +
+                ", logoUrl='" + logoUrl + '\'' +
+                '}';
     }
 
     public String getName() {
@@ -51,11 +82,11 @@ import javax.persistence.*;
         return this.preMatch;
     }
 
-    public int getLeagueID() {
+    public Integer getLeagueID() {
         return leagueID;
     }
 
-    public void setLeagueID(int leagueID) {
+    public void setLeagueID(Integer leagueID) {
         this.leagueID = leagueID;
     }
 
