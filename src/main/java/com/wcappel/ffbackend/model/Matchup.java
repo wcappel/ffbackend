@@ -2,9 +2,6 @@ package com.wcappel.ffbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.wcappel.ffbackend.misc.MatchupId;
-import org.hibernate.annotations.JoinColumnOrFormula;
-import org.hibernate.annotations.JoinColumnsOrFormulas;
-import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 

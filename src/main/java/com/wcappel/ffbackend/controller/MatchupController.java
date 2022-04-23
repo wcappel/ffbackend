@@ -14,10 +14,8 @@ import java.util.List;
         return matchupRepository.findAll();
     }
 
-    @PostMapping("/addmatchup")
-    public Matchup addMatchup(@RequestBody Matchup m) {
+    @PostMapping("/addmatchup") public Matchup addMatchup(@RequestBody Matchup m) {
         System.out.println(m);
-        System.out.println(matchupRepository.save(m));
         return matchupRepository.save(m);
     }
 }
