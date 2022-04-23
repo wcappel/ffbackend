@@ -7,15 +7,13 @@ import javax.persistence.*;
 
 @Entity @Table(name="Rosters") public class Roster {
     @JsonUnwrapped @EmbeddedId private RosterId rosterId;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumns({
-            @JoinColumn(name="Rostered", referencedColumnName = "Team_name", insertable = false, updatable = false, nullable = false),
-            @JoinColumn(name="League",referencedColumnName = "League", insertable = false, updatable = false, nullable = false)
-        }) private Team rostered;
+    @JoinColumn(name="Rostered", referencedColumnName = "Team_name", nullable = false)
+        private String rostered;
     @Column(name="Roster_position") private String rosterPosition;
 
     public Roster() {}
 
-    public Roster(RosterId rosterId, Team rostered, String rosterPosition) {
+    public Roster(RosterId rosterId, String rostered, String rosterPosition) {
         this.rosterId = rosterId;
         this.rostered = rostered;
         this.rosterPosition = rosterPosition;
@@ -36,11 +34,11 @@ import javax.persistence.*;
         this.rosterId = rosterId;
     }
 
-    public Team getRostered() {
+    public String getRostered() {
         return rostered;
     }
 
-    public void setRostered(Team rostered) {
+    public void setRostered(String rostered) {
         this.rostered = rostered;
     }
 
