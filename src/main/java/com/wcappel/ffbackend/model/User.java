@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity @Table(name="Users") public class User {
-    @Id @Column(name="Username") private String username;
+    @Id @Column(name="Username", nullable = false) private String username;
 
     public User() {}
 
@@ -14,18 +14,17 @@ import javax.persistence.*;
         this.username = username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
                 '}';
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

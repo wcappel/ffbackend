@@ -7,26 +7,18 @@ import java.util.Objects;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity @Table(name="Leagues") public class League {
-    @Id @Column(name="League_ID", nullable = false) @GeneratedValue(strategy= GenerationType.IDENTITY) Integer leagueID;
+    @Id @Column(name="League_ID", nullable = false, unique = true) @GeneratedValue(strategy= GenerationType.IDENTITY)
+        int leagueId;
     @Column(name="Name", nullable = false) String name;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="Commissioner") User commissioner;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name="Commissioner") User commissioner;
     @Column(name="Current_week") byte currentWeek;
     @Column(name="Pre_match") boolean preMatch;
     @Column(name="Logo_url") String logoUrl;
 
     public League() {}
 
-    public League(Integer leagueID) {
-        this.leagueID = leagueID;
-    }
-
-    public League(Integer leagueID, String name, User commissioner, String logoUrl) {
-        this.leagueID = leagueID;
-        this.currentWeek = 0;
-        this.preMatch = true;
-        this.name = name;
-        this.commissioner = commissioner;
-        this.logoUrl = logoUrl;
+    public League(Integer leagueId) {
+        this.leagueId = leagueId;
     }
 
     @Override
@@ -34,18 +26,18 @@ import java.util.Objects;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         League league = (League) o;
-        return leagueID.equals(league.leagueID);
+        return leagueId == (league.leagueId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(leagueID);
+        return Objects.hash(leagueId);
     }
 
     @Override
     public String toString() {
         return "League{" +
-                "leagueID=" + leagueID +
+                "leagueID=" + leagueId +
                 ", name='" + name + '\'' +
                 ", commissioner=" + commissioner +
                 ", currentWeek=" + currentWeek +
@@ -82,12 +74,12 @@ import java.util.Objects;
         return this.preMatch;
     }
 
-    public Integer getLeagueID() {
-        return leagueID;
+    public int getLeagueid() {
+        return leagueId;
     }
 
-    public void setLeagueID(Integer leagueID) {
-        this.leagueID = leagueID;
+    public void setLeagueid(int leagueId) {
+        this.leagueId = leagueId;
     }
 
     public void setPreMatch(boolean preMatch) {

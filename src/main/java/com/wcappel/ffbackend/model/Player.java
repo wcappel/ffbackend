@@ -1,35 +1,33 @@
 package com.wcappel.ffbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.wcappel.ffbackend.misc.PlayerId;
 
 import javax.persistence.*;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Entity @IdClass(PlayerId.class) @Table(name="Players") public class Player {
-    @Id @Column(name="Name") private String name;
-    @Id @Column(name="Position") private String position;
+@Entity @Table(name="Players") public class Player {
+    @JsonUnwrapped @EmbeddedId PlayerId playerId;
 
     public Player() {}
 
-    public Player(String name, String position) {
-        this.name = name;
-        this.position = position;
+    public Player(PlayerId playerId) {
+        this.playerId = playerId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public PlayerId getPlayerId() {
+        return playerId;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setPlayerId(PlayerId playerId) {
+        this.playerId = playerId;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public String getPosition() {
-        return this.position;
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerId=" + playerId +
+                '}';
     }
 }

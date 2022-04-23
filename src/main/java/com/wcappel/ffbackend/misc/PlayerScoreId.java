@@ -1,27 +1,38 @@
 package com.wcappel.ffbackend.misc;
 
-import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.model.Player;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class PlayerScoreId implements Serializable {
-    private Player playerRef;
-    private byte week;
+@Embeddable public class PlayerScoreId implements Serializable {
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumns({
+            @JoinColumn(name="Name", nullable = false),
+            @JoinColumn(name="Position", nullable = false)
+    }) private Player player;
+    @Column(name="Week", nullable = false) private byte week;
 
     public PlayerScoreId() {}
 
-    public PlayerScoreId(Player playerRef, byte week) {
-        this.playerRef = playerRef;
+    public PlayerScoreId(Player player, byte week) {
+        this.player = player;
         this.week = week;
     }
 
-    public Player getPlayerRef() {
-        return playerRef;
+    @Override
+    public String toString() {
+        return "PlayerScoreId{" +
+                "player=" + player +
+                ", week=" + week +
+                '}';
     }
 
-    public void setPlayerRef(Player playerRef) {
-        this.playerRef = playerRef;
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public byte getWeek() {

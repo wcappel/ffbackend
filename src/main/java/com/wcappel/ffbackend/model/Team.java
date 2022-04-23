@@ -1,18 +1,16 @@
 package com.wcappel.ffbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.wcappel.ffbackend.misc.TeamId;
 
 import javax.persistence.*;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Entity @IdClass(TeamId.class) @Table(name="Teams") public class Team {
-    @Id @Column(name="Team_name") private String teamName;
-    @Id @Column(name="League", nullable = false) private int leagueId;
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = League.class)
-    @JoinColumn(name="League", referencedColumnName = "League_ID", insertable = false, updatable = false, nullable = false)
-    private League league;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="Owner") private User owner;
+@Entity @Table(name="Teams") public class Team {
+    @JsonUnwrapped @EmbeddedId private TeamId teamId;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="Owner", nullable = false)
+        private User owner;
     @Column(name="Wins") private byte wins;
     @Column(name="Losses") private byte losses;
     @Column(name="Ties") private byte ties;
@@ -21,10 +19,8 @@ import javax.persistence.*;
 
     public Team() {}
 
-    public Team(String teamName, int leagueId, League league, User owner, byte wins, byte losses, byte ties, boolean onBye, String logoUrl) {
-        this.teamName = teamName;
-        this.leagueId = leagueId;
-        this.league = league;
+    public Team(TeamId teamId, User owner, byte wins, byte losses, byte ties, boolean onBye, String logoUrl) {
+        this.teamId = teamId;
         this.owner = owner;
         this.wins = wins;
         this.losses = losses;
@@ -36,8 +32,7 @@ import javax.persistence.*;
     @Override
     public String toString() {
         return "Team{" +
-                "teamName='" + teamName + '\'' +
-                ", league=" + league +
+                "teamId=" + teamId +
                 ", owner=" + owner +
                 ", wins=" + wins +
                 ", losses=" + losses +
@@ -47,28 +42,12 @@ import javax.persistence.*;
                 '}';
     }
 
-    public int getLeagueId() {
-        return leagueId;
+    public TeamId getTeamId() {
+        return teamId;
     }
 
-    public void setLeagueId(int leagueId) {
-        this.leagueId = leagueId;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public League getLeague() {
-        return league;
-    }
-
-    public void setLeague(League league) {
-        this.league = league;
+    public void setTeamId(TeamId teamId) {
+        this.teamId = teamId;
     }
 
     public User getOwner() {

@@ -3,42 +3,45 @@ package com.wcappel.ffbackend.misc;
 import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.model.Player;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class RosterId implements Serializable {
-    private String playerName;
-    private String playerPos;
-    private int leagueId;
+@Embeddable public class RosterId implements Serializable {
+    @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="League", updatable = false, insertable = false, nullable = false)
+        private League league;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumns({
+            @JoinColumn(name="Player_name", nullable = false),
+            @JoinColumn(name="Position", nullable = false)
+        }) private Player player;
 
     public RosterId() {}
 
-    public RosterId(String playerName, String playerPos, int leagueId) {
-        this.playerName = playerName;
-        this.playerPos = playerPos;
-        this.leagueId = leagueId;
+    public RosterId(League league, Player player) {
+        this.league = league;
+        this.player = player;
     }
 
-    public String getPlayerName() {
-        return playerName;
+    @Override public String toString() {
+        return "RosterId{" +
+                "league=" + league +
+                ", player=" + player +
+                '}';
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public League getLeague() {
+        return league;
     }
 
-    public String getPlayerPos() {
-        return playerPos;
+    public void setLeague(League league) {
+        this.league = league;
     }
 
-    public void setPlayerPos(String playerPos) {
-        this.playerPos = playerPos;
+    public Player getPlayer() {
+        return player;
     }
 
-    public int getLeagueId() {
-        return leagueId;
-    }
-
-    public void setLeagueId(int league) {
-        this.leagueId = league;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

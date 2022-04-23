@@ -14,8 +14,7 @@ import java.util.List;
         return teamRepository.findAll();
     }
 
-    @PostMapping("/addteam")
-    public Team addTeam(@RequestBody Team t) {
+    @PostMapping("/addteam") public Team addTeam(@RequestBody Team t) {
         System.out.println(t.toString());
         return teamRepository.save(t);
     }

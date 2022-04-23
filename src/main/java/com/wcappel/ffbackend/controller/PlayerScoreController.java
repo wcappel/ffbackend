@@ -1,11 +1,10 @@
 package com.wcappel.ffbackend.controller;
 
 import com.wcappel.ffbackend.model.PlayerScore;
+import com.wcappel.ffbackend.model.Team;
 import com.wcappel.ffbackend.repository.PlayerScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,5 +13,11 @@ import java.util.List;
 
     @GetMapping("/getallplayerscores") List<PlayerScore> getAllPlayerScores() {
         return playerScoreRepository.findAll();
+    }
+
+    @PostMapping("/addplayerscore")
+    public PlayerScore addTeam(@RequestBody PlayerScore s) {
+        System.out.println(s);
+        return playerScoreRepository.save(s);
     }
 }
