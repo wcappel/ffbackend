@@ -1,5 +1,6 @@
 package com.wcappel.ffbackend.controller;
 
+import com.wcappel.ffbackend.misc.StandingDTO;
 import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.repository.LeagueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,9 @@ import java.util.List;
 
     @GetMapping("/getnumofteamsinleague/{league}") int getNumOfTeamsInLeague(@PathVariable String league) {
         return leagueRepository.getNumOfTeamsInLeague(league);
+    }
+
+    @GetMapping("/getleaguestandings/{league}") List<StandingDTO> getLeagueStandings(@PathVariable String league) {
+        return leagueRepository.getLeagueStandings(league);
     }
 }
