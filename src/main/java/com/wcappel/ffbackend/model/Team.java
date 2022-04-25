@@ -15,7 +15,7 @@ import javax.persistence.*;
     @Column(name="Losses") private byte losses;
     @Column(name="Ties") private byte ties;
     @Column(name="On_bye") private boolean onBye;
-    @Column(name="Logo_url") private String logoUrl;
+    @Column(name="Logo_url", length=200) private String logoUrl;
 
     public Team() {}
 

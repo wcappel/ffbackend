@@ -9,11 +9,11 @@ import java.util.Objects;
 @Entity @Table(name="Leagues") public class League {
     @Id @Column(name="League_ID", nullable = false, unique = true) @GeneratedValue(strategy= GenerationType.IDENTITY)
         int leagueId;
-    @Column(name="Name", nullable = false) String name;
+    @Column(name="Name", length=50, nullable = false) String name;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name="Commissioner") User commissioner;
     @Column(name="Current_week") byte currentWeek;
     @Column(name="Pre_match") boolean preMatch;
-    @Column(name="Logo_url") String logoUrl;
+    @Column(name="Logo_url", length=200) String logoUrl;
 
     public League() {}
 
@@ -21,8 +21,7 @@ import java.util.Objects;
         this.leagueId = leagueId;
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         League league = (League) o;

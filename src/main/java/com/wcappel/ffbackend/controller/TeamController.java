@@ -18,4 +18,14 @@ import java.util.List;
         System.out.println(t.toString());
         return teamRepository.save(t);
     }
+
+    @GetMapping("/getteamsbyuser/{user}")
+    public List<Team> getTeamsByUser(@PathVariable String user) {
+        return teamRepository.getTeamsByUser(user);
+    }
+
+    @GetMapping("/getteamsbyleague/{league}")
+    public List<Team> getTeamsByLeague(@PathVariable String league) {
+        return teamRepository.getTeamsByLeague(league);
+    }
 }

@@ -18,4 +18,9 @@ import java.util.List;
         System.out.println(m);
         return matchupRepository.save(m);
     }
+
+    @GetMapping("/getleaguematchupsbyweek/league={league},week={week}")
+    public List<Matchup> getLeagueMatchupsByWeek(@PathVariable int league, @PathVariable byte week) {
+        return matchupRepository.getLeagueMatchupsByWeek(league, week);
+    }
 }

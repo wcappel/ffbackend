@@ -4,6 +4,7 @@ import com.wcappel.ffbackend.model.League;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable public class MatchupId implements Serializable {
     @ManyToOne(fetch=FetchType.LAZY)
@@ -24,6 +25,17 @@ import java.io.Serializable;
                 "league=" + league +
                 ", matchNum=" + matchNum +
                 '}';
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MatchupId matchupId = (MatchupId) o;
+        return matchNum == matchupId.matchNum && league.equals(matchupId.league);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(league, matchNum);
     }
 
     public League getLeague() {

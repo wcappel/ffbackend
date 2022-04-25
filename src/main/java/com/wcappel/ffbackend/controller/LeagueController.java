@@ -17,4 +17,8 @@ import java.util.List;
     @PostMapping("/addleague") League addLeague(@RequestBody League l) {
         return leagueRepository.save(l);
     }
+
+    @GetMapping("/getnumofteamsinleague/{league}") int getNumOfTeamsInLeague(@PathVariable String league) {
+        return leagueRepository.getNumOfTeamsInLeague(league);
+    }
 }

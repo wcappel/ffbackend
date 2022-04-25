@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable public class PlayerId implements Serializable {
-    @Column(name="Name") private String name;
-    @Column(name="Position") private String position;
+    @Column(name="Name", length=50, nullable = false) private String name;
+    @Column(name="Position", length=4, nullable = false) private String position;
 
     public PlayerId() {}
 
@@ -16,16 +16,14 @@ import java.util.Objects;
         this.position = playerPosition;
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlayerId playerId = (PlayerId) o;
         return name.equals(playerId.name) && position.equals(playerId.position);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return Objects.hash(name, position);
     }
 

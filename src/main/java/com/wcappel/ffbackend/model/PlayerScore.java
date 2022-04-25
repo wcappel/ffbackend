@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity @Table(name="PlayerScores") public class PlayerScore {
     @JsonUnwrapped @EmbeddedId private PlayerScoreId playerScoreId;
-    @Column(name="NFL_team") private String nflTeam;
+    @Column(name="NFL_team", length=3) private String nflTeam;
     @Column(name="Available") private boolean available;
     @Column(name="Fantasy_points") private float fantasyPoints;
 

@@ -9,7 +9,7 @@ import javax.persistence.*;
     @JsonUnwrapped @EmbeddedId private RosterId rosterId;
     @JoinColumn(name="Rostered", referencedColumnName = "Team_name", nullable = false)
         private String rostered;
-    @Column(name="Roster_position") private String rosterPosition;
+    @Column(name="Roster_position", length=4) private String rosterPosition;
 
     public Roster() {}
 

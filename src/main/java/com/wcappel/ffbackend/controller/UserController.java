@@ -17,5 +17,4 @@ import java.util.List;
     @GetMapping("/getallusers") public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
 }
