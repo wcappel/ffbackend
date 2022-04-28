@@ -19,13 +19,18 @@ import java.util.List;
         return teamRepository.save(t);
     }
 
-    @GetMapping("/getteamsbyuser/{user}")
+    @GetMapping("/getteamsbyuser/user={user}")
     public List<Team> getTeamsByUser(@PathVariable String user) {
         return teamRepository.getTeamsByUser(user);
     }
 
-    @GetMapping("/getteamsbyleague/{league}")
+    @GetMapping("/getteamsbyleague/league={league}")
     public List<Team> getTeamsByLeague(@PathVariable String league) {
         return teamRepository.getTeamsByLeague(league);
+    }
+
+    @GetMapping("/getteamfantasypoints/league={league},team={team}")
+    public float getTeamFantasyPoints(@PathVariable int league, @PathVariable String team) {
+        return teamRepository.getTeamFantasyPoints(league, team);
     }
 }

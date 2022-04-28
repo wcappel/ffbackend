@@ -1,5 +1,6 @@
 package com.wcappel.ffbackend.controller;
 
+import com.wcappel.ffbackend.misc.MatchupMetaDTO;
 import com.wcappel.ffbackend.model.Matchup;
 import com.wcappel.ffbackend.repository.MatchupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,16 @@ import java.util.List;
         return matchupRepository.save(m);
     }
 
-    @GetMapping("/getleaguematchupsbyweek/league={league},week={week}")
-    public List<Matchup> getLeagueMatchupsByWeek(@PathVariable int league, @PathVariable byte week) {
-        return matchupRepository.getLeagueMatchupsByWeek(league, week);
+    @GetMapping("/getcurrentleaguematchups/league={league}")
+    public List<MatchupMetaDTO> getLeagueMatchupsByWeek(@PathVariable int league) {
+        return matchupRepository.getCurrentLeagueMatchups(league);
     }
+
+    @GetMapping("/getallteammatchups/league={league},team={team}")
+    public List<MatchupMetaDTO> getAllTeamMatchups(@PathVariable int league, @PathVariable String team) {
+        return matchupRepository.getAllTeamMatchups(league, team);
+    }
+
+//    @GetMapping("/getcurrentmatchupsbyuser/user={user}")
+
 }
