@@ -13,7 +13,7 @@ public interface TeamRepository extends JpaRepository<Team, TeamId> {
         List<Team> getTeamsByUser(@Param("currUser") String currUser);
 
     @Query(value = "SELECT * FROM Teams t WHERE league = :currLeague", nativeQuery = true)
-        List<Team> getTeamsByLeague(@Param("currLeague") String currLeague);
+        List<Team> getTeamsByLeague(@Param("currLeague") int currLeague);
 
     @Query(value = "SELECT Sum(Temp.Fantasy_points) FROM (SELECT PlayerScores.Fantasy_points FROM PlayerScores, Rosters, Leagues" +
             " WHERE PlayerScores.Name = Rosters.Player_name AND PlayerScores.Position = Rosters.Position" +

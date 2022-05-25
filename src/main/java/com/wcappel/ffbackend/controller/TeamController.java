@@ -25,7 +25,7 @@ import java.util.List;
     }
 
     @GetMapping("/getteamsbyleague/league={league}")
-    public List<Team> getTeamsByLeague(@PathVariable String league) {
+    public List<Team> getTeamsByLeague(@PathVariable int league) {
         return teamRepository.getTeamsByLeague(league);
     }
 
