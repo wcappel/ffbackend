@@ -1,6 +1,8 @@
 package com.wcappel.ffbackend.controller;
 
 import com.wcappel.ffbackend.misc.LineupDTO;
+import com.wcappel.ffbackend.misc.PlayerDTO;
+import com.wcappel.ffbackend.model.Player;
 import com.wcappel.ffbackend.model.Roster;
 import com.wcappel.ffbackend.repository.RosterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,16 @@ import java.util.List;
     @GetMapping("/getteamroster/league={league},team={team}") public List<LineupDTO>
     getTeamRoster(@PathVariable int league, @PathVariable String team) {
         return rosterRepository.getTeamRoster(league, team);
+    }
+
+    @GetMapping("/getleagueroster/league={league}") public List<Roster>
+    getLeagueRoster(@PathVariable int league) {
+        return rosterRepository.getLeagueRoster(league);
+    }
+
+    @GetMapping("/getunrosteredplayers/league={league}") public List<PlayerDTO>
+    getUnrosteredPlayers(@PathVariable int league) {
+        return rosterRepository.getUnrosteredPlayers(league);
     }
 
     @GetMapping("/getnumofplayersonbench/league={league},team={team}") public int

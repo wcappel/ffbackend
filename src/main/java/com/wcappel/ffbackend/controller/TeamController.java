@@ -24,6 +24,11 @@ import java.util.List;
         return teamRepository.getTeamsByUser(user);
     }
 
+    @GetMapping("/getteamsbyleagueanduser/league={league},user={user}")
+    public List<Team> getTeamsByLeagueAndUser(@PathVariable int league, @PathVariable String user) {
+        return teamRepository.getTeamsByLeagueAndUser(league, user);
+    }
+
     @GetMapping("/getteamsbyleague/league={league}")
     public List<Team> getTeamsByLeague(@PathVariable int league) {
         return teamRepository.getTeamsByLeague(league);

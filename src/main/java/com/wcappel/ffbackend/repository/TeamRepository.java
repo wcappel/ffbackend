@@ -12,6 +12,9 @@ public interface TeamRepository extends JpaRepository<Team, TeamId> {
     @Query(value = "SELECT * FROM Teams t WHERE owner = :currUser" , nativeQuery = true)
         List<Team> getTeamsByUser(@Param("currUser") String currUser);
 
+    @Query(value = "SELECT * FROM Teams t WHERE owner = :currUser AND league = :currLeague", nativeQuery = true)
+        List<Team> getTeamsByLeagueAndUser(@Param("currLeague") int currLeague, @Param("currUser") String currUser);
+
     @Query(value = "SELECT * FROM Teams t WHERE league = :currLeague", nativeQuery = true)
         List<Team> getTeamsByLeague(@Param("currLeague") int currLeague);
 

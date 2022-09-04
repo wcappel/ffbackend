@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable public class PlayerId implements Serializable {
+@Embeddable public class PlayerId implements Serializable, PlayerDTO {
     @Column(name="Name", length=50, nullable = false) private String name;
     @Column(name="Position", length=4, nullable = false) private String position;
 

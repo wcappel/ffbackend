@@ -1,7 +1,9 @@
 package com.wcappel.ffbackend.repository;
 
 import com.wcappel.ffbackend.misc.LineupDTO;
+import com.wcappel.ffbackend.misc.PlayerDTO;
 import com.wcappel.ffbackend.misc.RosterId;
+import com.wcappel.ffbackend.model.Player;
 import com.wcappel.ffbackend.model.Roster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +24,15 @@ public interface RosterRepository extends JpaRepository<Roster, RosterId> {
             " AND Rosters.Rostered = :currTeam AND Rosters.League = :currLeague"
                     , nativeQuery = true)
     List<LineupDTO> getTeamRoster(@Param("currLeague") int currLeague, String currTeam);
+
+    @Query(value = "SELECT * FROM Rosters WHERE League = :currLeague", nativeQuery = true)
+    List<Roster> getLeagueRoster (@Param("currLeague") int currLeague);
+
+    @Query(value = "SELECT Players.Name, Players.Position FROM Players\n" +
+            "LEFT OUTER JOIN (SELECT * FROM Rosters WHERE League = :currLeague) AS Temp ON\n" +
+            "Temp.Player_name = Players.Name AND Temp.Position = Players.Position\n" +
+            "WHERE Temp.Player_name IS NULL AND Temp.Position IS NULL", nativeQuery = true)
+    List<PlayerDTO> getUnrosteredPlayers(@Param("currLeague") int currLeague);
 
     @Query(value = "SELECT Count(*) FROM Rosters WHERE League = :currLeague" +
             " AND Rostered = :currTeam AND Roster_position = \"BNCH\"", nativeQuery = true)
