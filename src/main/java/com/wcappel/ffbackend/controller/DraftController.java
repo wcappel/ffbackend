@@ -12,6 +12,7 @@ import com.wcappel.ffbackend.repository.TeamRepository;
 import com.wcappel.ffbackend.misc.DraftOutput;
 import com.wcappel.ffbackend.misc.DraftRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -25,9 +26,9 @@ import java.util.stream.Collectors;
 	@Autowired private TeamRepository teamRepository;
 	@Autowired private RosterRepository rosterRepository;
 
-	@MessageMapping("/draftreq")
-	@SendTo("/draftfeed/PLACEHOLDER")
-	public DraftOutput draftPlayer(DraftRequest draftRequest) throws Exception {
+	@MessageMapping("/draftreq/{league}")
+	@SendTo("/draftfeed/{league}")
+	public DraftOutput draftPlayer(DraftRequest draftRequest, @DestinationVariable int league) throws Exception {
 		boolean draftSuccess = false;
 		int userLeague = Integer.parseInt(draftRequest.getLeague());
 		System.out.println(draftRequest.toString());
@@ -64,7 +65,6 @@ import java.util.stream.Collectors;
 				));
 
 				draftSuccess = true;
-				//
 			} else {
 				// Invalid draft request
 				System.out.println("Invalid draft request (player DNE or is not unrostered).");

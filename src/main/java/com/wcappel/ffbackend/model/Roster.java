@@ -1,6 +1,7 @@
 package com.wcappel.ffbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.wcappel.ffbackend.misc.ProjectConstants;
 import com.wcappel.ffbackend.misc.RosterId;
 
 import javax.persistence.*;
@@ -47,6 +48,8 @@ import javax.persistence.*;
     }
 
     public void setRosterPosition(String rosterPosition) {
-        this.rosterPosition = rosterPosition;
+        if (ProjectConstants.rosterPositions.contains(rosterPosition)) {
+            this.rosterPosition = rosterPosition;
+        }
     }
 }

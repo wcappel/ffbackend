@@ -10,11 +10,11 @@ import java.util.List;
 @RestController @RequestMapping("/ffapi/v1/trades") class TradeController {
     @Autowired private TradeRepository tradeRepository;
 
-    @GetMapping("/getalltrades") List<Trade> getAllMatchups() {
+    @GetMapping("/getalltrades") List<Trade> getAllTrades() {
         return tradeRepository.findAll();
     }
 
-    @PostMapping("/addtrade") public Trade addMatchup(@RequestBody Trade t) {
+    @PostMapping("/addtrade") public Trade addTrade(@RequestBody Trade t) {
         System.out.println(t);
         return tradeRepository.save(t);
     }

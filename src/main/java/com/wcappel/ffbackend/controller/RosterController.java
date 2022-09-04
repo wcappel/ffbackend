@@ -2,13 +2,19 @@ package com.wcappel.ffbackend.controller;
 
 import com.wcappel.ffbackend.misc.LineupDTO;
 import com.wcappel.ffbackend.misc.PlayerDTO;
+import com.wcappel.ffbackend.misc.ProjectConstants;
 import com.wcappel.ffbackend.model.Player;
 import com.wcappel.ffbackend.model.Roster;
 import com.wcappel.ffbackend.repository.RosterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 
 @RestController @RequestMapping("/ffapi/v1/rosters")public class RosterController {
     @Autowired private RosterRepository rosterRepository;
@@ -17,9 +23,33 @@ import java.util.List;
         return rosterRepository.findAll();
     }
 
+    // This should eventually not be public, or even an endpoint
+    // Make separate endpoint/repo methods for trades, etc.
     @PostMapping("/addroster") public Roster addRoster(@RequestBody Roster r) {
         System.out.println(r);
         return rosterRepository.save(r);
+    }
+
+    @PutMapping("/updaterosterposition") public void
+    updateRosterPosition(@RequestBody Roster r) {
+
+        Optional<Roster> existingRosterOptional = rosterRepository.findById(r.getRosterId());
+        if (existingRosterOptional.isPresent()) {
+            // Roster object w/ ID exists, update position
+            // Check to see if roster position is unoccupied (except for bench, if bench is not full)
+            List<Roster> sameRosterPositionList = rosterRepository
+                    .findByRosteredAndRosterPositionAndRosterId_League(r.getRostered(), r.getRosterPosition(),
+                            r.getRosterId().getLeague());
+            System.out.println(sameRosterPositionList);
+
+            if (sameRosterPositionList.isEmpty() || r.getRosterPosition().equals("BNCH")) {
+                Roster existingRoster = existingRosterOptional.get();
+                existingRoster.setRosterPosition(r.getRosterPosition());
+                rosterRepository.save(existingRoster);
+            } else {
+                System.out.println("Roster position already taken!");
+            }
+        }
     }
 
     @GetMapping("/getteamroster/league={league},team={team}") public List<LineupDTO>
