@@ -24,7 +24,7 @@ public class DraftRequest {
 
 	@Override
 	public String toString() {
-		return "HelloMessage{" +
+		return "DraftRequest{" +
 				"user='" + user + '\'' +
 				", league='" + league + '\'' +
 				", playerName='" + playerName + '\'' +

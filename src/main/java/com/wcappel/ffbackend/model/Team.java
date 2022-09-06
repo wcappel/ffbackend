@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.wcappel.ffbackend.misc.TeamId;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity @Table(name="Teams") public class Team {
@@ -40,6 +41,19 @@ import javax.persistence.*;
                 ", onBye=" + onBye +
                 ", logoUrl='" + logoUrl + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return wins == team.wins && losses == team.losses && ties == team.ties && onBye == team.onBye && Objects.equals(teamId, team.teamId) && Objects.equals(owner, team.owner) && Objects.equals(logoUrl, team.logoUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(teamId, owner, wins, losses, ties, onBye, logoUrl);
     }
 
     public TeamId getTeamId() {

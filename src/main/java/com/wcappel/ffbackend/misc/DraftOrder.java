@@ -56,4 +56,14 @@ public class DraftOrder {
             this.flipOrder();
         }
     }
+
+    @Override
+    public String toString() {
+        return "DraftOrder{" +
+                "round=" + round +
+                ", maxRounds=" + maxRounds +
+                ", order=" + order +
+                ", currentPickInRound=" + currentPickInRound +
+                '}';
+    }
 }
