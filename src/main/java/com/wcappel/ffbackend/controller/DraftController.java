@@ -1,30 +1,45 @@
 package com.wcappel.ffbackend.controller;
 
-import com.wcappel.ffbackend.misc.PlayerDTO;
-import com.wcappel.ffbackend.misc.PlayerId;
-import com.wcappel.ffbackend.misc.RosterId;
+import com.wcappel.ffbackend.misc.*;
 import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.model.Player;
 import com.wcappel.ffbackend.model.Roster;
 import com.wcappel.ffbackend.model.Team;
+import com.wcappel.ffbackend.repository.LeagueRepository;
 import com.wcappel.ffbackend.repository.RosterRepository;
 import com.wcappel.ffbackend.repository.TeamRepository;
-import com.wcappel.ffbackend.misc.DraftOutput;
-import com.wcappel.ffbackend.misc.DraftRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Controller public class DraftController {
+@Controller @RequestMapping("/ffapi/v1/draft") public class DraftController {
 	@Autowired private TeamRepository teamRepository;
 	@Autowired private RosterRepository rosterRepository;
+	@Autowired private LeagueRepository leagueRepository;
+	@Autowired private DraftOrderHolder draftOrderHolder;
+
+
+	@PostMapping("/startdraft/league={league}") void startDraft(@PathVariable int league) {
+		Optional<League> draftingLeague = leagueRepository.findByLeagueId(league);
+
+		if (draftingLeague.isPresent()) {
+			List<Team> leagueTeams = teamRepository.getTeamsByLeague(league);
+			draftOrderHolder.createLeagueDraftOrder(draftingLeague.get(), leagueTeams);
+			System.out.println(leagueTeams.toString());
+			System.out.println(draftOrderHolder.getLeagueDraftOrder(draftingLeague.get()));
+		}
+	}
 
 	@MessageMapping("/draftreq/{league}")
 	@SendTo("/draftfeed/{league}")

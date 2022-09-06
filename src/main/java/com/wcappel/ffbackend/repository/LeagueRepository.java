@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LeagueRepository extends JpaRepository<League, Long> {
     @Query(value = "SELECT Count(*) FROM Teams t WHERE league = :currLeague", nativeQuery = true)
@@ -23,4 +24,6 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
 
     @Query(value = "SELECT Commissioner FROM Leagues WHERE League_ID = :currLeague", nativeQuery = true)
     String getCommissioner(@Param("currLeague") int currLeague);
+
+    public Optional<League> findByLeagueId(int id);
 }
