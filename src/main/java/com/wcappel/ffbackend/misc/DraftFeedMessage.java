@@ -6,7 +6,8 @@ public class DraftFeedMessage {
     private messageType messageType;
 
     public enum messageType {
-        DRAFT_STATUS,
+        DRAFT_START,
+        DRAFT_END,
         CURRENT_PICK,
         PICK_RESULT
     }

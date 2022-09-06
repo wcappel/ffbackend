@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
 	@Autowired private DraftOrderHolder draftOrderHolder;
 	@Autowired SimpMessagingTemplate simpMessagingTemplate;
 
-	public final String getLeagueDraftPath(int league) {
-		return String.format("/draftfeed/%s", league);
+	public final String getLeagueDraftPath(int leagueId) {
+		return String.format("/draftfeed/%s", leagueId);
 	}
 
 	public final String getTimestamp() {
@@ -41,12 +41,12 @@ import java.util.stream.Collectors;
 
 	public void startDraftMessage(@PathVariable int league) {
 		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.MESSAGE_DRAFT_START,
-				getTimestamp(), DraftFeedMessage.messageType.DRAFT_STATUS));
+				getTimestamp(), DraftFeedMessage.messageType.DRAFT_START));
 	}
 
 	public void endDraftMessage(@PathVariable int league) {
 		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.MESSAGE_DRAFT_END,
-				getTimestamp(), DraftFeedMessage.messageType.DRAFT_STATUS));
+				getTimestamp(), DraftFeedMessage.messageType.DRAFT_END));
 	}
 
 	public void currentPickMessage(@PathVariable int league, int pickNum, int roundNum, String pickingTeam) {
@@ -64,12 +64,16 @@ import java.util.stream.Collectors;
 
 		if (draftingLeague.isPresent()) {
 			List<Team> leagueTeams = teamRepository.getTeamsByLeague(league);
+
 			if (draftOrderHolder.getLeagueDraftOrder(draftingLeague.get()) == null) {
 				draftOrderHolder.createLeagueDraftOrder(draftingLeague.get(), leagueTeams);
 				startDraftMessage(league);
+				DraftOrder leagueDraftOrder = draftOrderHolder.getLeagueDraftOrder(draftingLeague.get());
+				currentPickMessage(league, leagueDraftOrder.getCurrentPickInRound(), leagueDraftOrder.getCurrentRound(),
+						leagueDraftOrder.getCurrentDraftingTeam().getTeamId().getTeamName());
 
 				System.out.println("Draft Order:");
-				System.out.println(draftOrderHolder.getLeagueDraftOrder(draftingLeague.get()));
+				System.out.println(leagueDraftOrder);
 			}
 		}
 	}
@@ -125,7 +129,14 @@ import java.util.stream.Collectors;
 						));
 
 						draftSuccess = true;
+						pickResultMessage(league, currTeam.getTeamId().getTeamName(), reqPlayer.getName(), reqPlayer.getPosition());
 						currentLeagueDraftInfo.nextPick();
+						if (!currentLeagueDraftInfo.isFinished()) {
+							currentPickMessage(league, currentLeagueDraftInfo.getCurrentPickInRound(), currentLeagueDraftInfo.getCurrentRound(),
+									currentLeagueDraftInfo.getCurrentDraftingTeam().getTeamId().getTeamName());
+						} else {
+							endDraftMessage(league);
+						}
 						System.out.println(currentLeagueDraftInfo);
 					} else {
 						// Invalid draft request

@@ -22,7 +22,7 @@ public class DraftOrder {
         Collections.shuffle(this.order);
     }
 
-    public int getRound() {
+    public int getCurrentRound() {
         return round;
     }
 
@@ -32,6 +32,10 @@ public class DraftOrder {
 
     public int getCurrentPickInRound() {
         return currentPickInRound;
+    }
+
+    public Team getCurrentDraftingTeam() {
+        return this.order.get(this.currentPickInRound - 1);
     }
 
     public void generateDraftOrder(List<Team> leagueTeams) {
