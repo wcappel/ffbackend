@@ -7,16 +7,16 @@ public class DraftOutput {
 	private String league;
 	private String playerName;
 	private String playerPos;
-	private String time;
+	private String timestamp;
 
 	public DraftOutput(final boolean draftSuccess, String user, final String league,
-					   final String playerName, String playerPos, final String time) {
+					   final String playerName, String playerPos, final String timestamp) {
 		this.draftSuccess = draftSuccess;
 		this.user = user;
 		this.league = league;
 		this.playerName = playerName;
 		this.playerPos = playerPos;
-		this.time = time;
+		this.timestamp = timestamp;
 	}
 
 	public String getUser() {
@@ -35,8 +35,8 @@ public class DraftOutput {
 		return playerPos;
 	}
 
-	public String getTime() {
-		return time;
+	public String getTimestamp() {
+		return timestamp;
 	}
 
 	public boolean isDraftSuccess() {

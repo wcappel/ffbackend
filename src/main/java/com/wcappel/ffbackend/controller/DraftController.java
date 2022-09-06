@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,35 @@ import java.util.stream.Collectors;
 	@Autowired private RosterRepository rosterRepository;
 	@Autowired private LeagueRepository leagueRepository;
 	@Autowired private DraftOrderHolder draftOrderHolder;
+	@Autowired SimpMessagingTemplate simpMessagingTemplate;
 
+	public final String getLeagueDraftPath(int league) {
+		return String.format("/draftfeed/%s", league);
+	}
+
+	public final String getTimestamp() {
+		return new SimpleDateFormat("HH:mm:ss").format(new Date());
+	}
+
+	public void startDraftMessage(@PathVariable int league) {
+		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.MESSAGE_DRAFT_START,
+				getTimestamp(), DraftFeedMessage.messageType.DRAFT_STATUS));
+	}
+
+	public void endDraftMessage(@PathVariable int league) {
+		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.MESSAGE_DRAFT_END,
+				getTimestamp(), DraftFeedMessage.messageType.DRAFT_STATUS));
+	}
+
+	public void currentPickMessage(@PathVariable int league, int pickNum, int roundNum, String pickingTeam) {
+		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.CURRENT_PICK_MESSAGE(pickNum, roundNum, pickingTeam),
+				getTimestamp(), DraftFeedMessage.messageType.CURRENT_PICK));
+	}
+
+	public void pickResultMessage(@PathVariable int league, String pickingTeam, String playerName, String playerPos) {
+		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.PICK_RESULT_MESSAGE(pickingTeam, playerName, playerPos),
+				getTimestamp(), DraftFeedMessage.messageType.PICK_RESULT));
+	}
 
 	@PostMapping("/startdraft/league={league}") void startDraft(@PathVariable int league) {
 		Optional<League> draftingLeague = leagueRepository.findByLeagueId(league);
@@ -37,7 +66,8 @@ import java.util.stream.Collectors;
 			List<Team> leagueTeams = teamRepository.getTeamsByLeague(league);
 			if (draftOrderHolder.getLeagueDraftOrder(draftingLeague.get()) == null) {
 				draftOrderHolder.createLeagueDraftOrder(draftingLeague.get(), leagueTeams);
-//				System.out.println(leagueTeams.toString());
+				startDraftMessage(league);
+
 				System.out.println("Draft Order:");
 				System.out.println(draftOrderHolder.getLeagueDraftOrder(draftingLeague.get()));
 			}
@@ -74,7 +104,8 @@ import java.util.stream.Collectors;
 				// Check to see if it is currently the team's turn to draft!
 				int currentPickInRound = currentLeagueDraftInfo.getCurrentPickInRound();
 
-				if (currentLeagueDraftInfo.getOrder().get(currentPickInRound - 1).getTeamId().getTeamName().equals(currTeam.getTeamId().getTeamName())) {
+				if (currentLeagueDraftInfo.getOrder().get(currentPickInRound - 1).getTeamId().getTeamName().equals(currTeam.getTeamId().getTeamName())
+					&& !currentLeagueDraftInfo.isFinished()) {
 					// Check if the player that is picked is not already rostered (will not be in list)
 					List<PlayerDTO> unrosteredDTOList = rosterRepository
 							.getUnrosteredPlayers(userLeague);
@@ -100,6 +131,8 @@ import java.util.stream.Collectors;
 						// Invalid draft request
 						System.out.println("Invalid draft request (player DNE or is not unrostered).");
 					}
+				} else if (currentLeagueDraftInfo.isFinished()) {
+					System.out.println("The draft is over!");
 				} else {
 					System.out.println("It is not this team's turn to draft!");
 				}

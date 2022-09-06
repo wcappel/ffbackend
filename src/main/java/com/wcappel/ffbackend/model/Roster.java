@@ -48,7 +48,7 @@ import javax.persistence.*;
     }
 
     public void setRosterPosition(String rosterPosition) {
-        if (ProjectConstants.rosterPositions.contains(rosterPosition)) {
+        if (ProjectConstants.ROSTER_POSITIONS.contains(rosterPosition)) {
             this.rosterPosition = rosterPosition;
         }
     }

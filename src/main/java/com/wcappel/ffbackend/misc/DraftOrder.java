@@ -12,10 +12,12 @@ public class DraftOrder {
     private final int maxRounds = 12;
     private List<Team> order;
     private int currentPickInRound;
+    private boolean finished;
 
     protected DraftOrder(List<Team> leagueTeams) {
         this.round = 1;
         this.currentPickInRound = 1;
+        this.finished = false;
         this.order = new ArrayList<Team>(leagueTeams);
         Collections.shuffle(this.order);
     }
@@ -54,7 +56,13 @@ public class DraftOrder {
             this.round++;
             this.currentPickInRound = 1;
             this.flipOrder();
+        } else {
+            this.finished = true;
         }
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 
     @Override
