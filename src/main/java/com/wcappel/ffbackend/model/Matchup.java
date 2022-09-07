@@ -12,12 +12,12 @@ import javax.persistence.*;
         private String homeTeam;
     @JoinColumn(name="Away_team", referencedColumnName = "Team_name", nullable = false)
         private String awayTeam;
-    @Column(name="Home_score") private int homeScore;
-    @Column(name="Away_score") private int awayScore;
+    @Column(name="Home_score") private float homeScore;
+    @Column(name="Away_score") private float awayScore;
 
     public Matchup() {}
 
-    public Matchup(MatchupId matchupId, int week, String homeTeam, String awayTeam, int homeScore, int awayScore) {
+    public Matchup(MatchupId matchupId, int week, String homeTeam, String awayTeam, float homeScore, float awayScore) {
         this.matchupId = matchupId;
         this.week = week;
         this.homeTeam = homeTeam;
@@ -69,19 +69,19 @@ import javax.persistence.*;
         this.awayTeam = awayTeam;
     }
 
-    public int getHomeScore() {
+    public float getHomeScore() {
         return homeScore;
     }
 
-    public void setHomeScore(int homeScore) {
+    public void setHomeScore(float homeScore) {
         this.homeScore = homeScore;
     }
 
-    public int getAwayScore() {
+    public float getAwayScore() {
         return awayScore;
     }
 
-    public void setAwayScore(int awayScore) {
+    public void setAwayScore(float awayScore) {
         this.awayScore = awayScore;
     }
 }

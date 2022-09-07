@@ -22,12 +22,12 @@ import java.util.List;
 
     @GetMapping("/getcurrentleaguematchups/league={league}")
     public List<MatchupMetaDTO> getLeagueMatchupsByWeek(@PathVariable int league) {
-        return matchupRepository.getCurrentLeagueMatchups(league);
+        return matchupRepository.getCurrentLeagueMatchupsInfo(league);
     }
 
     @GetMapping("/getallteammatchups/league={league},team={team}")
-    public List<MatchupMetaDTO> getAllTeamMatchups(@PathVariable int league, @PathVariable String team) {
-        return matchupRepository.getAllTeamMatchups(league, team);
+    public List<MatchupMetaDTO> getAllTeamMatchupsInfo(@PathVariable int league, @PathVariable String team) {
+        return matchupRepository.getAllTeamMatchupsInfo(league, team);
     }
 
 //    @GetMapping("/getcurrentmatchupsbyuser/user={user}")

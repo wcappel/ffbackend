@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 	@Autowired private RosterRepository rosterRepository;
 	@Autowired private LeagueRepository leagueRepository;
 	@Autowired private DraftOrderHolder draftOrderHolder;
-	@Autowired SimpMessagingTemplate simpMessagingTemplate;
+	@Autowired private SimpMessagingTemplate simpMessagingTemplate;
 
 	public final String getLeagueDraftPath(int leagueId) {
 		return String.format("/draftfeed/%s", leagueId);
