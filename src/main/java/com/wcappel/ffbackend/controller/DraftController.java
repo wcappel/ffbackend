@@ -1,5 +1,6 @@
 package com.wcappel.ffbackend.controller;
 
+import com.wcappel.ffbackend.dto.PlayerDTO;
 import com.wcappel.ffbackend.misc.*;
 import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.model.Player;
@@ -136,6 +137,7 @@ import java.util.stream.Collectors;
 									currentLeagueDraftInfo.getCurrentDraftingTeam().getTeamId().getTeamName());
 						} else {
 							endDraftMessage(league);
+							draftOrderHolder.removeLeagueDraftOrder(draftingLeague.get());
 						}
 						System.out.println(currentLeagueDraftInfo);
 					} else {

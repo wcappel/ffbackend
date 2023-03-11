@@ -1,6 +1,6 @@
 package com.wcappel.ffbackend.controller;
 
-import com.wcappel.ffbackend.misc.MatchupMetaDTO;
+import com.wcappel.ffbackend.dto.MatchupMetaDTO;
 import com.wcappel.ffbackend.model.Matchup;
 import com.wcappel.ffbackend.repository.MatchupRepository;
 import org.springframework.beans.factory.annotation.Autowired;

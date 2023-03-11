@@ -1,5 +1,7 @@
 package com.wcappel.ffbackend.misc;
 
+import com.wcappel.ffbackend.dto.PlayerDTO;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;

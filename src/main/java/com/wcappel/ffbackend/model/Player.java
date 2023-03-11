@@ -2,7 +2,6 @@ package com.wcappel.ffbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.wcappel.ffbackend.misc.PlayerDTO;
 import com.wcappel.ffbackend.misc.PlayerId;
 
 import javax.persistence.*;

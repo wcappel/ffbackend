@@ -1,10 +1,9 @@
 package com.wcappel.ffbackend.repository;
 
-import com.wcappel.ffbackend.misc.LineupDTO;
-import com.wcappel.ffbackend.misc.PlayerDTO;
+import com.wcappel.ffbackend.dto.LineupDTO;
+import com.wcappel.ffbackend.dto.PlayerDTO;
 import com.wcappel.ffbackend.misc.RosterId;
 import com.wcappel.ffbackend.model.League;
-import com.wcappel.ffbackend.model.Player;
 import com.wcappel.ffbackend.model.Roster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

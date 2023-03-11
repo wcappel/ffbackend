@@ -36,3 +36,4 @@ build/
 /src/main/resources/static/app.js
 /src/main/resources/static/index.html
 /src/main/resources/static/main.css
+/src/main/java/com/wcappel/ffbackend/auth/AuthClientIDs.java

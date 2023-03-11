@@ -1,4 +1,4 @@
-package com.wcappel.ffbackend.misc;
+package com.wcappel.ffbackend.dto;
 
 public interface MatchupMetaDTO {
     int getLeague();

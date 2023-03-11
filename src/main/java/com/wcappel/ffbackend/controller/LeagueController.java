@@ -1,7 +1,7 @@
 package com.wcappel.ffbackend.controller;
 
 import com.wcappel.ffbackend.misc.MatchupGenerator;
-import com.wcappel.ffbackend.misc.StandingDTO;
+import com.wcappel.ffbackend.dto.StandingDTO;
 import com.wcappel.ffbackend.misc.TeamId;
 import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.model.Matchup;
@@ -94,5 +94,10 @@ import java.util.List;
 
         // Increment league's Current_week if not end of season
         leagueEntity.setCurrentWeek((byte) (leagueEntity.getCurrentWeek() + 1));
+
+        // NOTE: Consider adding a "Season_length" field to Leagues table
+        // to hold number of weeks in a league's season
+        // This field can then be used for MatchupGenerator (input through LeagueController)
+        // and above in this document, to check against Current_week
     }
 }

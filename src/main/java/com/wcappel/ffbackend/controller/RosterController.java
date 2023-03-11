@@ -1,20 +1,14 @@
 package com.wcappel.ffbackend.controller;
 
-import com.wcappel.ffbackend.misc.LineupDTO;
-import com.wcappel.ffbackend.misc.PlayerDTO;
-import com.wcappel.ffbackend.misc.ProjectConstants;
-import com.wcappel.ffbackend.model.Player;
+import com.wcappel.ffbackend.dto.LineupDTO;
+import com.wcappel.ffbackend.dto.PlayerDTO;
 import com.wcappel.ffbackend.model.Roster;
 import com.wcappel.ffbackend.repository.RosterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 
 @RestController @RequestMapping("/ffapi/v1/rosters")public class RosterController {
     @Autowired private RosterRepository rosterRepository;

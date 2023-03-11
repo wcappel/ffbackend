@@ -1,7 +1,7 @@
 package com.wcappel.ffbackend.repository;
 
 import com.wcappel.ffbackend.misc.MatchupId;
-import com.wcappel.ffbackend.misc.MatchupMetaDTO;
+import com.wcappel.ffbackend.dto.MatchupMetaDTO;
 import com.wcappel.ffbackend.model.Matchup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

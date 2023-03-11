@@ -1,4 +1,4 @@
-package com.wcappel.ffbackend.misc;
+package com.wcappel.ffbackend.dto;
 
 public interface LineupDTO {
     String getPlayer_name();
@@ -6,5 +6,5 @@ public interface LineupDTO {
     String getRoster_position();
     String getNFL_team();
     boolean getAvailable();
-    float getPoints();
+    Float getPoints();
 }

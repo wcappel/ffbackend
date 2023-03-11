@@ -1,9 +1,7 @@
 package com.wcappel.ffbackend.repository;
 
-import com.wcappel.ffbackend.misc.StandingDTO;
+import com.wcappel.ffbackend.dto.StandingDTO;
 import com.wcappel.ffbackend.model.League;
-import com.wcappel.ffbackend.model.Team;
-import com.wcappel.ffbackend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

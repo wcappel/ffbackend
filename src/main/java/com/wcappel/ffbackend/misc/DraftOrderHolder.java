@@ -19,4 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
     public DraftOrder getLeagueDraftOrder(League league) {
         return draftOrderPerLeague.get(league);
     }
+
+    public DraftOrder removeLeagueDraftOrder(League league) {
+        return draftOrderPerLeague.remove(league);
+    }
 }
