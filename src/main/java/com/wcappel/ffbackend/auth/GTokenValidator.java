@@ -6,22 +6,31 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
+import com.wcappel.ffbackend.repository.LeagueRepository;
+import com.wcappel.ffbackend.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
-@Component class GTokenValidator {
+@Component public class GTokenValidator {
+
+
+    private static final JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
     private static final HttpTransport transport = new NetHttpTransport();
-    private static final JsonFactory jsonFactory = new GsonFactory();
     private static final String CLIENT_ID = AuthClientIDs.getGClientId();
     private final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
             .setAudience(Collections.singletonList(CLIENT_ID)).build();
-
     public ReturnedTokenInfo verifyGToken(String idTokenString) {
         try {
+            if (idTokenString == null) {
+                System.out.println("id token is null!");
+                return new ReturnedTokenInfo(false, null);
+            }
+
             GoogleIdToken idToken = verifier.verify(idTokenString);
+            System.out.println(idToken);
             if (idToken != null) {
                 GoogleIdToken.Payload payload = idToken.getPayload();
                 return new ReturnedTokenInfo(true, payload.getEmail());
@@ -35,5 +44,4 @@ import java.util.Collections;
             return new ReturnedTokenInfo(false, null);
         }
     }
-
 }

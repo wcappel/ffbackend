@@ -23,5 +23,12 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
     @Query(value = "SELECT Commissioner FROM Leagues WHERE League_ID = :currLeague", nativeQuery = true)
     String getCommissioner(@Param("currLeague") int currLeague);
 
+    @Query(value = "SELECT CASE WHEN EXISTS (SELECT * FROM Teams WHERE League = :currLeague," +
+            " AND Owner = :user) THEN True ELSE False END", nativeQuery = true)
+    boolean checkUserHasTeamInLeague(@Param("currLeague") int currLeague, @Param("user") String user);
+
+    @Query(value = "SELECT Commissioner FROM Leagues WHERE League = :currLeague", nativeQuery = true)
+    String getLeagueCommissioner(@Param("currLeague") int currLeague);
+
     public Optional<League> findByLeagueId(int id);
 }

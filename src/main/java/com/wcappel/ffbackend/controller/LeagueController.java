@@ -1,5 +1,8 @@
 package com.wcappel.ffbackend.controller;
 
+import com.wcappel.ffbackend.auth.AuthUtils;
+import com.wcappel.ffbackend.auth.GTokenValidator;
+import com.wcappel.ffbackend.auth.ReturnedTokenInfo;
 import com.wcappel.ffbackend.misc.MatchupGenerator;
 import com.wcappel.ffbackend.dto.StandingDTO;
 import com.wcappel.ffbackend.misc.TeamId;
@@ -9,6 +12,7 @@ import com.wcappel.ffbackend.model.Team;
 import com.wcappel.ffbackend.repository.LeagueRepository;
 import com.wcappel.ffbackend.repository.MatchupRepository;
 import com.wcappel.ffbackend.repository.TeamRepository;
+import com.wcappel.ffbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +23,8 @@ import java.util.List;
     @Autowired private LeagueRepository leagueRepository;
     @Autowired private TeamRepository teamRepository;
     @Autowired private MatchupRepository matchupRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private GTokenValidator gTokenValidator;
 
     @GetMapping("/getallleagues") List<League> getAllLeagues() {
         return leagueRepository.findAll();
@@ -32,8 +38,15 @@ import java.util.List;
         return leagueRepository.getNumOfTeamsInLeague(league);
     }
 
-    @GetMapping("/getleaguestandings/league={league}") List<StandingDTO> getLeagueStandings(@PathVariable int league) {
-        return leagueRepository.getLeagueStandings(league);
+    @GetMapping("/getleaguestandings/league={league}")
+    List<StandingDTO> getLeagueStandings(@PathVariable int league, @RequestHeader("auth-token") String authToken) {
+        ReturnedTokenInfo tokenInfo = gTokenValidator.verifyGToken(authToken);
+        // Check if user has team in league for now, optimize later
+        boolean userInLeague = AuthUtils.checkUserHasAccessToLeague(tokenInfo, league, leagueRepository, userRepository);
+        if (tokenInfo.isValid() && userInLeague) {
+            return leagueRepository.getLeagueStandings(league);
+        }
+        return null;
     }
 
     @PostMapping("/generatematchups/league={league}") List<Matchup> generateMatchups(@PathVariable int league) {
