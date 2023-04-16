@@ -16,17 +16,14 @@ import java.util.List;
     @Autowired private UserRepository userRepository;
     @Autowired private GTokenValidator gTokenValidator;
 
-    @PostMapping("/authgetuserinfo")
-    public User getUserInfo(@RequestBody AuthTokenRequestBody authTokenRequestBody) {
-        String authToken = authTokenRequestBody.authToken;
+    @GetMapping("/authgetuserinfo")
+    public User getUserInfo(@RequestHeader("Authorization") String authToken) {
         System.out.println(authToken);
         ReturnedTokenInfo tokenInfo = gTokenValidator.verifyGToken(authToken);
         User currentUser = AuthUtils.getUserInfo(tokenInfo, userRepository);
         if (tokenInfo.isValid() && currentUser != null) {
-            System.out.println(currentUser);
             return currentUser;
         }
-        System.out.println("User null");
         return null;
     }
 
