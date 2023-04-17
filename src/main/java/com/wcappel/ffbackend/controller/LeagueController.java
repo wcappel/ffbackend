@@ -39,7 +39,7 @@ import java.util.List;
     }
 
     @GetMapping("/getleaguestandings/league={league}")
-    List<StandingDTO> getLeagueStandings(@PathVariable int league, @RequestHeader("auth-token") String authToken) {
+    List<StandingDTO> getLeagueStandings(@PathVariable int league, @RequestHeader("Authorization") String authToken) {
         ReturnedTokenInfo tokenInfo = gTokenValidator.verifyGToken(authToken);
         // Check if user has team in league for now, optimize later
         boolean userInLeague = AuthUtils.checkUserHasAccessToLeague(tokenInfo, league, leagueRepository, userRepository);

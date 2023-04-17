@@ -1,6 +1,5 @@
 package com.wcappel.ffbackend.controller;
 
-import com.wcappel.ffbackend.auth.AuthTokenRequestBody;
 import com.wcappel.ffbackend.auth.AuthUtils;
 import com.wcappel.ffbackend.auth.GTokenValidator;
 import com.wcappel.ffbackend.auth.ReturnedTokenInfo;
@@ -18,7 +17,6 @@ import java.util.List;
 
     @GetMapping("/authgetuserinfo")
     public User getUserInfo(@RequestHeader("Authorization") String authToken) {
-        System.out.println(authToken);
         ReturnedTokenInfo tokenInfo = gTokenValidator.verifyGToken(authToken);
         User currentUser = AuthUtils.getUserInfo(tokenInfo, userRepository);
         if (tokenInfo.isValid() && currentUser != null) {

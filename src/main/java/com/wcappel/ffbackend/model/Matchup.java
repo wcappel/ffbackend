@@ -12,8 +12,8 @@ import javax.persistence.*;
         private String homeTeam;
     @JoinColumn(name="Away_team", referencedColumnName = "Team_name", nullable = false)
         private String awayTeam;
-    @Column(name="Home_score") private float homeScore;
-    @Column(name="Away_score") private float awayScore;
+    @Column(name="Home_score") private Float homeScore;
+    @Column(name="Away_score") private Float awayScore;
 
     public Matchup() {}
 

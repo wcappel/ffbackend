@@ -30,6 +30,8 @@ import java.util.List;
         return matchupRepository.getAllTeamMatchupsInfo(league, team);
     }
 
-//    @GetMapping("/getcurrentmatchupsbyuser/user={user}")
-
+    @GetMapping("/getcurrentmatchupsbyuser/user={user}")
+    public List<MatchupMetaDTO> getCurrentMatchupsByUser(@PathVariable String user) {
+        return matchupRepository.getCurrentMatchupsByUser(user);
+    }
 }
