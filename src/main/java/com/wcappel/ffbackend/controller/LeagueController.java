@@ -4,7 +4,7 @@ import com.wcappel.ffbackend.auth.AuthUtils;
 import com.wcappel.ffbackend.auth.GTokenValidator;
 import com.wcappel.ffbackend.auth.ReturnedTokenInfo;
 import com.wcappel.ffbackend.misc.MatchupGenerator;
-import com.wcappel.ffbackend.dto.StandingDTO;
+import com.wcappel.ffbackend.misc.StandingInfo;
 import com.wcappel.ffbackend.misc.TeamId;
 import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.model.Matchup;
@@ -39,14 +39,15 @@ import java.util.List;
     }
 
     @GetMapping("/getleaguestandings/league={league}")
-    List<StandingDTO> getLeagueStandings(@PathVariable int league, @RequestHeader("Authorization") String authToken) {
-        ReturnedTokenInfo tokenInfo = gTokenValidator.verifyGToken(authToken);
+    List<StandingInfo> getLeagueStandings(@PathVariable int league) {
+//        ReturnedTokenInfo tokenInfo = gTokenValidator.verifyGToken(authToken);
         // Check if user has team in league for now, optimize later
-        boolean userInLeague = AuthUtils.checkUserHasAccessToLeague(tokenInfo, league, leagueRepository, userRepository);
-        if (tokenInfo.isValid() && userInLeague) {
+//        boolean userInLeague = AuthUtils.checkUserHasAccessToLeague(tokenInfo, league, leagueRepository, userRepository);
+//        if (tokenInfo.isValid() && userInLeague) {
+            System.out.println(leagueRepository.getLeagueStandings(league));
             return leagueRepository.getLeagueStandings(league);
-        }
-        return null;
+//        }
+//        return null;
     }
 
     @PostMapping("/generatematchups/league={league}") List<Matchup> generateMatchups(@PathVariable int league) {
