@@ -2,87 +2,85 @@ package com.wcappel.ffbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.wcappel.ffbackend.misc.TradeId;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 
 @Entity @Table(name="Trades") public class Trade {
     @JsonUnwrapped @EmbeddedId TradeId tradeId;
-    @JoinColumn(name="Initiated_by", referencedColumnName = "Team_name")
-        String initiatedBy;
-    @JoinColumn(name="Proposed_to", referencedColumnName = "Team_name")
-        String proposedTo;
+    @ManyToOne @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="initiatedBy", referencedColumnName = "Team_name")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value="League", referencedColumnName = "League"))
+    }) private Team initiatedBy;
+    @ManyToOne @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="proposedTo", referencedColumnName = "Team_name")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value="League", referencedColumnName = "League"))
+    }) private Team proposedTo;
     @Column(name="User_approved") private boolean userApproved;
     @Column(name="Comm_approved") private boolean commApproved;
-    @JoinColumn(name="Init_p1_name", referencedColumnName = "Player_name", nullable = false)
-        String initP1Name;
-    @JoinColumn(name="Init_p1_pos", referencedColumnName = "Position", nullable = false)
-        String initP1Pos;
-    @JoinColumn(name="Init_p2_name", referencedColumnName = "Player_name")
-        String initP2Name;
-    @JoinColumn(name="Init_p2_pos", referencedColumnName = "Position")
-        String initP2Pos;
-    @JoinColumn(name="Init_p3_name", referencedColumnName = "Player_name")
-        String initP3Name;
-    @JoinColumn(name="Init_p3_pos", referencedColumnName = "Position")
-        String initP3Pos;
-    @JoinColumn(name="Prop_p1_name", referencedColumnName = "Player_name", nullable = false)
-        String propP1Name;
-    @JoinColumn(name="Prop_p1_pos", referencedColumnName = "Position", nullable = false)
-        String propP1Pos;
-    @JoinColumn(name="Prop_p2_name", referencedColumnName = "Player_name")
-        String propP2Name;
-    @JoinColumn(name="Prop_p2_pos", referencedColumnName = "Position")
-        String propP2Pos;
-    @JoinColumn(name="Prop_p3_name", referencedColumnName = "Player_name")
-        String propP3Name;
-    @JoinColumn(name="Prop_p3_pos", referencedColumnName = "Position")
-        String propP3Pos;
+    @ManyToOne @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="initP1Name", referencedColumnName = "Player_name")),
+            @JoinColumnOrFormula(column = @JoinColumn(name="initP1Pos", referencedColumnName = "Position")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value="League", referencedColumnName = "League"))
+    }) private Roster initP1;
+    @ManyToOne @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="initP2Name", referencedColumnName = "Player_name")),
+            @JoinColumnOrFormula(column = @JoinColumn(name="initP2Pos", referencedColumnName = "Position")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value="League", referencedColumnName = "League"))
+    }) private Roster initP2;
+    @ManyToOne @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="initP3Name", referencedColumnName = "Player_name")),
+            @JoinColumnOrFormula(column = @JoinColumn(name="initP3Pos", referencedColumnName = "Position")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value="League", referencedColumnName = "League"))
+    }) private Roster initP3;
+    @ManyToOne @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="propP1Name", referencedColumnName = "Player_name")),
+            @JoinColumnOrFormula(column = @JoinColumn(name="propP1Pos", referencedColumnName = "Position")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value="League", referencedColumnName = "League"))
+    }) private Roster propP1;
+    @ManyToOne @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="propP2Name", referencedColumnName = "Player_name")),
+            @JoinColumnOrFormula(column = @JoinColumn(name="propP2Pos", referencedColumnName = "Position")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value="League", referencedColumnName = "League"))
+    }) private Roster propP2;
+    @ManyToOne @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="propP3Name", referencedColumnName = "Player_name")),
+            @JoinColumnOrFormula(column = @JoinColumn(name="propP3Pos", referencedColumnName = "Position")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value="League", referencedColumnName = "League"))
+    }) private Roster propP3;
 
     public Trade() {}
 
-    public Trade(TradeId tradeId, String initiatedBy, String proposedTo, boolean userApproved,
-                 boolean commApproved, String initP1Name, String initP1Pos, String initP2Name,
-                 String initP2Pos, String initP3Name, String initP3Pos, String propP1Name, String propP1Pos,
-                 String propP2Name, String propP2Pos, String propP3Name, String propP3Pos) {
+    public Trade(TradeId tradeId, Team initiatedBy, Team proposedTo, boolean userApproved, boolean commApproved, Roster initP1, Roster initP2, Roster initP3, Roster propP1, Roster propP2, Roster propP3) {
         this.tradeId = tradeId;
         this.initiatedBy = initiatedBy;
         this.proposedTo = proposedTo;
         this.userApproved = userApproved;
         this.commApproved = commApproved;
-        this.initP1Name = initP1Name;
-        this.initP1Pos = initP1Pos;
-        this.initP2Name = initP2Name;
-        this.initP2Pos = initP2Pos;
-        this.initP3Name = initP3Name;
-        this.initP3Pos = initP3Pos;
-        this.propP1Name = propP1Name;
-        this.propP1Pos = propP1Pos;
-        this.propP2Name = propP2Name;
-        this.propP2Pos = propP2Pos;
-        this.propP3Name = propP3Name;
-        this.propP3Pos = propP3Pos;
+        this.initP1 = initP1;
+        this.initP2 = initP2;
+        this.initP3 = initP3;
+        this.propP1 = propP1;
+        this.propP2 = propP2;
+        this.propP3 = propP3;
     }
 
     @Override
     public String toString() {
         return "Trade{" +
                 "tradeId=" + tradeId +
-                ", initiatedBy='" + initiatedBy + '\'' +
-                ", proposedTo='" + proposedTo + '\'' +
+                ", initiatedBy=" + initiatedBy +
+                ", proposedTo=" + proposedTo +
                 ", userApproved=" + userApproved +
                 ", commApproved=" + commApproved +
-                ", initP1Name='" + initP1Name + '\'' +
-                ", initP1Pos='" + initP1Pos + '\'' +
-                ", initP2Name='" + initP2Name + '\'' +
-                ", initP2Pos='" + initP2Pos + '\'' +
-                ", initP3Name='" + initP3Name + '\'' +
-                ", initP3Pos='" + initP3Pos + '\'' +
-                ", propP1Name='" + propP1Name + '\'' +
-                ", propP1Pos='" + propP1Pos + '\'' +
-                ", propP2Name='" + propP2Name + '\'' +
-                ", propP2Pos='" + propP2Pos + '\'' +
-                ", propP3Name='" + propP3Name + '\'' +
-                ", propP3Pos='" + propP3Pos + '\'' +
+                ", initP1=" + initP1 +
+                ", initP2=" + initP2 +
+                ", initP3=" + initP3 +
+                ", propP1=" + propP1 +
+                ", propP2=" + propP2 +
+                ", propP3=" + propP3 +
                 '}';
     }
 
@@ -94,19 +92,19 @@ import javax.persistence.*;
         this.tradeId = tradeId;
     }
 
-    public String getInitiatedBy() {
+    public Team getInitiatedBy() {
         return initiatedBy;
     }
 
-    public void setInitiatedBy(String initiatedBy) {
+    public void setInitiatedBy(Team initiatedBy) {
         this.initiatedBy = initiatedBy;
     }
 
-    public String getProposedTo() {
+    public Team getProposedTo() {
         return proposedTo;
     }
 
-    public void setProposedTo(String proposedTo) {
+    public void setProposedTo(Team proposedTo) {
         this.proposedTo = proposedTo;
     }
 
@@ -126,99 +124,51 @@ import javax.persistence.*;
         this.commApproved = commApproved;
     }
 
-    public String getInitP1Name() {
-        return initP1Name;
+    public Roster getInitP1() {
+        return initP1;
     }
 
-    public void setInitP1Name(String initP1Name) {
-        this.initP1Name = initP1Name;
+    public void setInitP1(Roster initP1) {
+        this.initP1 = initP1;
     }
 
-    public String getInitP1Pos() {
-        return initP1Pos;
+    public Roster getInitP2() {
+        return initP2;
     }
 
-    public void setInitP1Pos(String initP1Pos) {
-        this.initP1Pos = initP1Pos;
+    public void setInitP2(Roster initP2) {
+        this.initP2 = initP2;
     }
 
-    public String getInitP2Name() {
-        return initP2Name;
+    public Roster getInitP3() {
+        return initP3;
     }
 
-    public void setInitP2Name(String initP2Name) {
-        this.initP2Name = initP2Name;
+    public void setInitP3(Roster initP3) {
+        this.initP3 = initP3;
     }
 
-    public String getInitP2Pos() {
-        return initP2Pos;
+    public Roster getPropP1() {
+        return propP1;
     }
 
-    public void setInitP2Pos(String initP2Pos) {
-        this.initP2Pos = initP2Pos;
+    public void setPropP1(Roster propP1) {
+        this.propP1 = propP1;
     }
 
-    public String getInitP3Name() {
-        return initP3Name;
+    public Roster getPropP2() {
+        return propP2;
     }
 
-    public void setInitP3Name(String initP3Name) {
-        this.initP3Name = initP3Name;
+    public void setPropP2(Roster propP2) {
+        this.propP2 = propP2;
     }
 
-    public String getInitP3Pos() {
-        return initP3Pos;
+    public Roster getPropP3() {
+        return propP3;
     }
 
-    public void setInitP3Pos(String initP3Pos) {
-        this.initP3Pos = initP3Pos;
-    }
-
-    public String getPropP1Name() {
-        return propP1Name;
-    }
-
-    public void setPropP1Name(String propP1Name) {
-        this.propP1Name = propP1Name;
-    }
-
-    public String getPropP1Pos() {
-        return propP1Pos;
-    }
-
-    public void setPropP1Pos(String propP1Pos) {
-        this.propP1Pos = propP1Pos;
-    }
-
-    public String getPropP2Name() {
-        return propP2Name;
-    }
-
-    public void setPropP2Name(String propP2Name) {
-        this.propP2Name = propP2Name;
-    }
-
-    public String getPropP2Pos() {
-        return propP2Pos;
-    }
-
-    public void setPropP2Pos(String propP2Pos) {
-        this.propP2Pos = propP2Pos;
-    }
-
-    public String getPropP3Name() {
-        return propP3Name;
-    }
-
-    public void setPropP3Name(String propP3Name) {
-        this.propP3Name = propP3Name;
-    }
-
-    public String getPropP3Pos() {
-        return propP3Pos;
-    }
-
-    public void setPropP3Pos(String propP3Pos) {
-        this.propP3Pos = propP3Pos;
+    public void setPropP3(Roster propP3) {
+        this.propP3 = propP3;
     }
 }
