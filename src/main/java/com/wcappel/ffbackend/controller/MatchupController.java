@@ -1,7 +1,9 @@
 package com.wcappel.ffbackend.controller;
 
-import com.wcappel.ffbackend.dto.MatchupMetaDTO;
+import com.wcappel.ffbackend.misc.TeamId;
+import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.model.Matchup;
+import com.wcappel.ffbackend.model.Team;
 import com.wcappel.ffbackend.repository.MatchupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +23,17 @@ import java.util.List;
     }
 
     @GetMapping("/getcurrentleaguematchups/league={league}")
-    public List<MatchupMetaDTO> getLeagueMatchupsByWeek(@PathVariable int league) {
+    public List<Matchup> getLeagueMatchupsByWeek(@PathVariable int league) {
         return matchupRepository.getCurrentLeagueMatchupsInfo(league);
     }
 
     @GetMapping("/getallteammatchups/league={league},team={team}")
-    public List<MatchupMetaDTO> getAllTeamMatchupsInfo(@PathVariable int league, @PathVariable String team) {
+    public List<Matchup> getAllTeamMatchupsInfo(@PathVariable int league, @PathVariable String team) {
         return matchupRepository.getAllTeamMatchupsInfo(league, team);
     }
 
     @GetMapping("/getcurrentmatchupsbyuser/user={user}")
-    public List<MatchupMetaDTO> getCurrentMatchupsByUser(@PathVariable String user) {
+    public List<Matchup> getCurrentMatchupsByUser(@PathVariable String user) {
         return matchupRepository.getCurrentMatchupsByUser(user);
     }
 }
