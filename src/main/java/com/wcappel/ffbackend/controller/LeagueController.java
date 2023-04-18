@@ -69,18 +69,20 @@ import java.util.List;
         if (leagueEntity == null) return;
 
         for (Matchup matchup : currentMatchups) {
-            float homeTeamPointsTotal = teamRepository.getTeamFantasyPoints(league, matchup.getHomeTeam());
-            float awayTeamPointsTotal = teamRepository.getTeamFantasyPoints(league, matchup.getAwayTeam());
+            float homeTeamPointsTotal = teamRepository.getTeamFantasyPoints(league,
+                    matchup.getHomeTeam().getTeamId().getTeamName());
+            float awayTeamPointsTotal = teamRepository.getTeamFantasyPoints(league,
+                    matchup.getAwayTeam().getTeamId().getTeamName());
 
             // Update and save matchup data
             matchup.setHomeScore(homeTeamPointsTotal);
             matchup.setAwayScore(awayTeamPointsTotal);
             matchupRepository.save(matchup);
 
-            Team homeTeam = teamRepository.findById(new TeamId(matchup.getHomeTeam(), leagueEntity)).isPresent() ?
-                    teamRepository.findById(new TeamId(matchup.getHomeTeam(), leagueEntity)).get() : null;
-            Team awayTeam = teamRepository.findById(new TeamId(matchup.getAwayTeam(), leagueEntity)).isPresent() ?
-                    teamRepository.findById(new TeamId(matchup.getAwayTeam(), leagueEntity)).get() : null;
+            Team homeTeam = teamRepository.findById(new TeamId(matchup.getHomeTeam().getTeamId().getTeamName(), leagueEntity)).isPresent() ?
+                    teamRepository.findById(new TeamId(matchup.getHomeTeam().getTeamId().getTeamName(), leagueEntity)).get() : null;
+            Team awayTeam = teamRepository.findById(new TeamId(matchup.getAwayTeam().getTeamId().getTeamName(), leagueEntity)).isPresent() ?
+                    teamRepository.findById(new TeamId(matchup.getAwayTeam().getTeamId().getTeamName(), leagueEntity)).get() : null;
 
             // Update and save team records
             if (homeTeam != null && awayTeam != null) {

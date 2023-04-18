@@ -13,7 +13,7 @@ import javax.persistence.*;
 
     public PlayerScore() {}
 
-    public PlayerScore(PlayerScoreId playerScoreId, String nflTeam, boolean available, float fantasyPoints) {
+    public PlayerScore(PlayerScoreId playerScoreId, String nflTeam, boolean available, Float fantasyPoints) {
         this.playerScoreId = playerScoreId;
         this.nflTeam = nflTeam;
         this.available = available;
@@ -53,11 +53,11 @@ import javax.persistence.*;
         this.available = available;
     }
 
-    public float getFantasyPoints() {
+    public Float getFantasyPoints() {
         return fantasyPoints;
     }
 
-    public void setFantasyPoints(float fantasyPoints) {
+    public void setFantasyPoints(Float fantasyPoints) {
         this.fantasyPoints = fantasyPoints;
     }
 }

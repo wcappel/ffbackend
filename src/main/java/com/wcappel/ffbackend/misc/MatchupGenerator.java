@@ -16,8 +16,8 @@ public class MatchupGenerator {
            MatchupId newId = new MatchupId();
            newId.setLeague(homeTeam.getTeamId().getLeague());
            newMatchup.setMatchupId(newId);
-           newMatchup.setHomeTeam(homeTeam.getTeamId().getTeamName());
-           newMatchup.setAwayTeam(awayTeam.getTeamId().getTeamName());
+           newMatchup.setHomeTeam(homeTeam);
+           newMatchup.setAwayTeam(awayTeam);
            newMatchup.setWeek(week);
            return newMatchup;
        }

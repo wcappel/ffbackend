@@ -5,6 +5,7 @@ import com.wcappel.ffbackend.dto.PlayerDTO;
 import com.wcappel.ffbackend.misc.RosterId;
 import com.wcappel.ffbackend.model.League;
 import com.wcappel.ffbackend.model.Roster;
+import com.wcappel.ffbackend.model.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -38,5 +39,5 @@ public interface RosterRepository extends JpaRepository<Roster, RosterId> {
             " AND Rostered = :currTeam AND Roster_position = \"BNCH\"", nativeQuery = true)
     int getNumOfPlayersOnBench(@Param("currLeague") int currLeague, @Param("currTeam") String currTeam);
 
-    List<Roster> findByRosteredAndRosterPositionAndRosterId_League(String rostered, String rosterPosition, League league);
+    List<Roster> findByRosteredAndRosterPositionAndRosterId_League(Team rostered, String rosterPosition, League league);
 }

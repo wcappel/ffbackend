@@ -3,18 +3,23 @@ package com.wcappel.ffbackend.model;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.wcappel.ffbackend.misc.ProjectConstants;
 import com.wcappel.ffbackend.misc.RosterId;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 
 @Entity @Table(name="Rosters") public class Roster {
     @JsonUnwrapped @EmbeddedId private RosterId rosterId;
-    @JoinColumn(name="Rostered", referencedColumnName = "Team_name", nullable = false)
-        private String rostered;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="Rostered", referencedColumnName = "Team_name", nullable = false)),
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "League", referencedColumnName = "League"))
+    }) private Team rostered;
     @Column(name="Roster_position", length=4) private String rosterPosition;
 
     public Roster() {}
 
-    public Roster(RosterId rosterId, String rostered, String rosterPosition) {
+    public Roster(RosterId rosterId, Team rostered, String rosterPosition) {
         this.rosterId = rosterId;
         this.rostered = rostered;
         this.rosterPosition = rosterPosition;
@@ -35,11 +40,11 @@ import javax.persistence.*;
         this.rosterId = rosterId;
     }
 
-    public String getRostered() {
+    public Team getRostered() {
         return rostered;
     }
 
-    public void setRostered(String rostered) {
+    public void setRostered(Team rostered) {
         this.rostered = rostered;
     }
 

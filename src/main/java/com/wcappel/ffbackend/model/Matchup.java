@@ -2,22 +2,29 @@ package com.wcappel.ffbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.wcappel.ffbackend.misc.MatchupId;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 
 @Entity @Table(name="Matchups") public class Matchup {
     @JsonUnwrapped @EmbeddedId MatchupId matchupId;
     @Column(name="Week", nullable = false) private int week;
-    @JoinColumn(name="Home_team", referencedColumnName = "Team_name", nullable = false)
-        private String homeTeam;
-    @JoinColumn(name="Away_team", referencedColumnName = "Team_name", nullable = false)
-        private String awayTeam;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="homeTeam", referencedColumnName = "Team_name", nullable = false)),
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "League", referencedColumnName = "League"))
+    }) private Team homeTeam;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumnsOrFormulas({
+            @JoinColumnOrFormula(column = @JoinColumn(name="awayTeam", referencedColumnName = "Team_name", nullable = false)),
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "League", referencedColumnName = "League"))
+    }) private Team awayTeam;
     @Column(name="Home_score") private Float homeScore;
     @Column(name="Away_score") private Float awayScore;
 
     public Matchup() {}
 
-    public Matchup(MatchupId matchupId, int week, String homeTeam, String awayTeam, float homeScore, float awayScore) {
+    public Matchup(MatchupId matchupId, int week, Team homeTeam, Team awayTeam, Float homeScore, Float awayScore) {
         this.matchupId = matchupId;
         this.week = week;
         this.homeTeam = homeTeam;
@@ -53,35 +60,35 @@ import javax.persistence.*;
         this.week = week;
     }
 
-    public String getHomeTeam() {
+    public Team getHomeTeam() {
         return homeTeam;
     }
 
-    public void setHomeTeam(String homeTeam) {
+    public void setHomeTeam(Team homeTeam) {
         this.homeTeam = homeTeam;
     }
 
-    public String getAwayTeam() {
+    public Team getAwayTeam() {
         return awayTeam;
     }
 
-    public void setAwayTeam(String awayTeam) {
+    public void setAwayTeam(Team awayTeam) {
         this.awayTeam = awayTeam;
     }
 
-    public float getHomeScore() {
+    public Float getHomeScore() {
         return homeScore;
     }
 
-    public void setHomeScore(float homeScore) {
+    public void setHomeScore(Float homeScore) {
         this.homeScore = homeScore;
     }
 
-    public float getAwayScore() {
+    public Float getAwayScore() {
         return awayScore;
     }
 
-    public void setAwayScore(float awayScore) {
+    public void setAwayScore(Float awayScore) {
         this.awayScore = awayScore;
     }
 }

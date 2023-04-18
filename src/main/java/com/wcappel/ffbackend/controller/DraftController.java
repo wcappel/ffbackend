@@ -125,7 +125,7 @@ import java.util.stream.Collectors;
 						// Draft player
 						Roster draftReqResult = rosterRepository.save(new Roster(
 								new RosterId(new League(userLeague), new Player(reqPlayer)),
-								currTeam.getTeamId().getTeamName(),
+								currTeam,
 								"BNCH"
 						));
 
