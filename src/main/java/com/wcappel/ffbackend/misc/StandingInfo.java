@@ -5,7 +5,7 @@ import com.wcappel.ffbackend.model.User;
 
 // Wrapper for Team to send win percentage info
 public class StandingInfo extends Team {
-    float wPc;
+    private float wPc;
 
     public StandingInfo() {}
 

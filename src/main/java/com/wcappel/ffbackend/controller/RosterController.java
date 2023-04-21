@@ -1,7 +1,7 @@
 package com.wcappel.ffbackend.controller;
 
-import com.wcappel.ffbackend.dto.LineupDTO;
 import com.wcappel.ffbackend.dto.PlayerDTO;
+import com.wcappel.ffbackend.misc.LineupInfo;
 import com.wcappel.ffbackend.misc.PlayerId;
 import com.wcappel.ffbackend.model.Player;
 import com.wcappel.ffbackend.model.Roster;
@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
         }
     }
 
-    @GetMapping("/getteamroster/league={league},team={team}") public List<LineupDTO>
+    @GetMapping("/getteamroster/league={league},team={team}") public List<LineupInfo>
     getTeamRoster(@PathVariable int league, @PathVariable String team) {
         return rosterRepository.getTeamRoster(league, team);
     }
