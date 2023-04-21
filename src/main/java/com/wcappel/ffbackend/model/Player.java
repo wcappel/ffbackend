@@ -2,6 +2,7 @@ package com.wcappel.ffbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.wcappel.ffbackend.dto.PlayerDTO;
 import com.wcappel.ffbackend.misc.PlayerId;
 
 import javax.persistence.*;
@@ -14,6 +15,10 @@ import javax.persistence.*;
 
     public Player(PlayerId playerId) {
         this.playerId = playerId;
+    }
+
+    public Player(PlayerDTO playerDto) {
+        this.playerId = new PlayerId(playerDto.getName(), playerDto.getPosition());
     }
 
     public PlayerId getPlayerId() {

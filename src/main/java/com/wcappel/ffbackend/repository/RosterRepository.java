@@ -4,6 +4,7 @@ import com.wcappel.ffbackend.dto.LineupDTO;
 import com.wcappel.ffbackend.dto.PlayerDTO;
 import com.wcappel.ffbackend.misc.RosterId;
 import com.wcappel.ffbackend.model.League;
+import com.wcappel.ffbackend.model.Player;
 import com.wcappel.ffbackend.model.Roster;
 import com.wcappel.ffbackend.model.Team;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,6 +2,8 @@ package com.wcappel.ffbackend.controller;
 
 import com.wcappel.ffbackend.dto.LineupDTO;
 import com.wcappel.ffbackend.dto.PlayerDTO;
+import com.wcappel.ffbackend.misc.PlayerId;
+import com.wcappel.ffbackend.model.Player;
 import com.wcappel.ffbackend.model.Roster;
 import com.wcappel.ffbackend.repository.RosterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController @RequestMapping("/ffapi/v1/rosters")public class RosterController {
     @Autowired private RosterRepository rosterRepository;
@@ -56,9 +59,12 @@ import java.util.Optional;
         return rosterRepository.getLeagueRoster(league);
     }
 
-    @GetMapping("/getunrosteredplayers/league={league}") public List<PlayerDTO>
+    @GetMapping("/getunrosteredplayers/league={league}") public List<Player>
     getUnrosteredPlayers(@PathVariable int league) {
-        return rosterRepository.getUnrosteredPlayers(league);
+        List<PlayerDTO> unrosteredPlayersDTOs = rosterRepository.getUnrosteredPlayers(league);
+        return unrosteredPlayersDTOs.stream()
+                .map(dto -> new Player(new PlayerId(dto.getName(), dto.getPosition())))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/getnumofplayersonbench/league={league},team={team}") public int
