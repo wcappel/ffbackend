@@ -34,6 +34,7 @@ import java.util.List;
 
     @GetMapping("/getcurrentmatchupsbyuser/user={user}")
     public List<Matchup> getCurrentMatchupsByUser(@PathVariable String user) {
+        System.out.println(matchupRepository.getCurrentMatchupsByUser(user));
         return matchupRepository.getCurrentMatchupsByUser(user);
     }
 }

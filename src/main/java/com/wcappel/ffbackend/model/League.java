@@ -73,11 +73,11 @@ import java.util.Objects;
         return this.preMatch;
     }
 
-    public int getLeagueid() {
+    public int getLeagueId() {
         return leagueId;
     }
 
-    public void setLeagueid(int leagueId) {
+    public void setLeagueId(int leagueId) {
         this.leagueId = leagueId;
     }
 

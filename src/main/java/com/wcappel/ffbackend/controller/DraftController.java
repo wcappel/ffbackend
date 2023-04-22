@@ -42,22 +42,22 @@ import java.util.stream.Collectors;
 
 	public void startDraftMessage(@PathVariable int league) {
 		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.MESSAGE_DRAFT_START,
-				getTimestamp(), DraftFeedMessage.messageType.DRAFT_START));
+				getTimestamp(), DraftFeedMessage.MessageType.DRAFT_START));
 	}
 
 	public void endDraftMessage(@PathVariable int league) {
 		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.MESSAGE_DRAFT_END,
-				getTimestamp(), DraftFeedMessage.messageType.DRAFT_END));
+				getTimestamp(), DraftFeedMessage.MessageType.DRAFT_END));
 	}
 
 	public void currentPickMessage(@PathVariable int league, int pickNum, int roundNum, String pickingTeam) {
 		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.CURRENT_PICK_MESSAGE(pickNum, roundNum, pickingTeam),
-				getTimestamp(), DraftFeedMessage.messageType.CURRENT_PICK));
+				getTimestamp(), DraftFeedMessage.MessageType.CURRENT_PICK));
 	}
 
 	public void pickResultMessage(@PathVariable int league, String pickingTeam, String playerName, String playerPos) {
 		this.simpMessagingTemplate.convertAndSend(getLeagueDraftPath(league), new DraftFeedMessage(ProjectConstants.PICK_RESULT_MESSAGE(pickingTeam, playerName, playerPos),
-				getTimestamp(), DraftFeedMessage.messageType.PICK_RESULT));
+				getTimestamp(), DraftFeedMessage.MessageType.PICK_RESULT));
 	}
 
 	@PostMapping("/startdraft/league={league}") void startDraft(@PathVariable int league) {

@@ -3,16 +3,16 @@ package com.wcappel.ffbackend.misc;
 public class DraftFeedMessage {
     private String message;
     private String timestamp;
-    private messageType messageType;
+    private MessageType messageType;
 
-    public enum messageType {
+    public enum MessageType {
         DRAFT_START,
         DRAFT_END,
         CURRENT_PICK,
         PICK_RESULT
     }
 
-    public DraftFeedMessage(final String message, final String timestamp, messageType mt) {
+    public DraftFeedMessage(final String message, final String timestamp, MessageType mt) {
         this.message = message;
         this.timestamp = timestamp;
         this.messageType = mt;
@@ -26,7 +26,7 @@ public class DraftFeedMessage {
         return timestamp;
     }
 
-    public DraftFeedMessage.messageType getMessageType() {
+    public DraftFeedMessage.MessageType getMessageType() {
         return messageType;
     }
 

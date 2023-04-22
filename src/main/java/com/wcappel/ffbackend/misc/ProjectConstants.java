@@ -1,12 +1,13 @@
 package com.wcappel.ffbackend.misc;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public final class ProjectConstants {
     private ProjectConstants() {}
 
-    public static final List<String> ROSTER_POSITIONS = Arrays.asList("BNCH", "QB", "FLEX", "TE", "RB1", "RB2", "WR1", "WR2");
+    public static final List<String> ROSTER_POSITIONS = List.of("BNCH", "QB", "FLEX", "TE", "RB1", "RB2", "WR1", "WR2");
 
     public static final String MESSAGE_DRAFT_START = "The draft has started!";
     public static final String MESSAGE_DRAFT_END = "The draft has ended.";

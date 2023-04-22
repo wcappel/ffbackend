@@ -3,6 +3,8 @@ package com.wcappel.ffbackend.misc;
 import com.wcappel.ffbackend.model.Team;
 import com.wcappel.ffbackend.model.User;
 
+import java.util.Objects;
+
 // Wrapper for Team to send win percentage info
 public class StandingInfo extends Team {
     private float wPc;
@@ -38,5 +40,19 @@ public class StandingInfo extends Team {
 
     public void setwPc(float wPc) {
         this.wPc = wPc;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        StandingInfo that = (StandingInfo) o;
+        return Float.compare(that.wPc, wPc) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), wPc);
     }
 }
